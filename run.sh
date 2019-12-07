@@ -1,0 +1,113 @@
+#! /bin/sh
+# simple script
+
+#!/bin/sh
+
+# Define variable without any spaces between the = sign
+var="Hello World"
+echo $var
+
+# To get the user input use read 'variable' name
+echo "what is your name?"
+#read name
+echo "How do you do, $name?"
+#read remark
+echo "I am $remark too!"
+
+# We can use \ to escape special characters and use ${} to avoid ambiguity
+APPLE_COST=5
+
+echo "Cost for the apple is \$ $APPLE_COST"
+echo "Cost for the apple is \$ ${APPLE_COST}"
+
+# Encapsulating the variable name with "" will preserve any white space values
+greetings="Hello      World!"
+echo "$greetings"
+
+# Variables can be assigned with the value of a command output. This is referred to as substitution.
+# Substitution can be done by encapsulating the command with `` (known as back-ticks) or with $()
+FILELIST=`ls`
+#FileWithTimeStamp=/tmp/my-dir/file_$(/bin/date +%Y-%m-%d).txt
+echo $FILELIST
+
+# To get the date
+date
+echo `date -d "$date1" +%A`
+
+#Arguments can be passed to the script when it is executed, by writing them as a space-delimited list following the script file name.
+#Inside the script, the $1 variable references the first argument in the command line, $2 the second argument and so forth. 
+#The variable $0 references to the current script. In the following example, the script name is followed by 6 arguments.
+echo "This will print the first argument: ${1} with the file run command: ${0}"
+
+# Arrays in shell scripts
+
+my_array=(apple banana "Fruit Basket" orange 1 2 3 5)
+echo "${my_array[*]} or to get the size: ${#my_array[@]}"
+my_array[4]="carrot" # assign values to the index
+echo ${my_array[*]}
+echo ${my_array[6]}
+
+# Simple Mathematical Operations
+a=10
+b=20
+echo $(($a + $b * 20 + 20))
+echo $(($a % $b))
+echo $(($a / $b))
+echo $(($a ** $b))
+echo $(($a - $b))
+
+# Basic string operations 
+STRING="this is a string"
+echo ${#STRING}  # get the no. of chars in the string
+
+STRING="this is a string"
+SUBSTRING="g"
+expr index "$STRING" "$SUBSTRING"     # 1 is the position of the first 't' in $STRING
+
+# Substring extraction
+STRING="this is a string"
+POS=6
+LEN=16
+echo ${STRING:$POS:$LEN} # its like the python slicing of strings. 
+
+# If :$LEN is omitted, extract substring from $POS to end of line
+STRING="this is a string"
+echo ${STRING:1}           # $STRING contents without leading character
+echo ${STRING:12}          # ring
+
+# Substring Replacement
+STRING="to be or not to be"
+
+STRING="to be or not to be"
+echo ${STRING[@]/be/eat}        # to eat or not to be
+
+# replace all occurances
+STRING="to be or not to be"
+echo ${STRING[@]//be/eat}        # to eat or not to eat
+
+# and lot more other string operations.... google the shit if needed
+
+# Decision Making
+# Syntax: if [ expression ]; then
+a=25
+b=20
+if [[ $a -gt $b && $a -eq 25 ]]  ; then # there is also || for or and ! for not equal to, etc. 
+    echo "The value of a is greater than 10 which is ${a}"
+elif [ $a -eq 25 ]; then
+    echo "Same bro"
+else
+    echo "Man oh man"
+fi
+
+# Switch in shell
+echo "Choose between 1-4, 5 to exit: "
+read mycase
+case $mycase in
+    1) echo "You selected bash";;
+    2) echo "You selected perl";;
+    3) echo "You selected phyton";;
+    4) echo "You selected c++";;
+    5) exit
+esac
+
+# Loops in Shell
